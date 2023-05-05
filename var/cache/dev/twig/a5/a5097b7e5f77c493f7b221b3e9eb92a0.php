@@ -100,18 +100,37 @@ class __TwigTemplate_aa7415d806b92b9975685b2b8dce030c extends Template
 \t</style>
 
 \t<div class=\"example-wrapper\">
-\t\t<h1>Hello
-\t\t\t";
-        // line 22
-        echo twig_escape_filter($this->env, (isset($context["controller_name"]) || array_key_exists("controller_name", $context) ? $context["controller_name"] : (function () { throw new RuntimeError('Variable "controller_name" does not exist.', 22, $this->source); })()), "html", null, true);
-        echo "! ✅</h1>
+\t\t<h1>
+\t\t\tHello ! 🤌🍝
 
-\t\tThis friendly message is coming from:
-\t\t<ul>
+\t\t</h1>
+
+\t\t";
+        // line 26
+        if (twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 26, $this->source); })()), "user", [], "any", false, false, false, 26)) {
+            // line 27
+            echo "\t\t\t<div class=\"mb-3\">
+\t\t\t\tYou are logged in as
+\t\t\t\t";
+            // line 29
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 29, $this->source); })()), "user", [], "any", false, false, false, 29), "userIdentifier", [], "any", false, false, false, 29), "html", null, true);
+            echo "
+\t\t\t</div>
+\t\t";
+        }
+        // line 32
+        echo "\t\t<ul>
 \t\t\t<li>
 \t\t\t\t<code>
-\t\t\t\t\t<a href=\"/register\">Créer un compte</a>
-\t\t\t\t</code>
+\t\t\t\t\t";
+        // line 35
+        if (twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 35, $this->source); })()), "user", [], "any", false, false, false, 35)) {
+            // line 36
+            echo "\t\t\t\t\t\t<a href=\"/register\">Créer un compte</a>
+\t\t\t\t\t";
+        }
+        // line 38
+        echo "\t\t\t\t</code>
 \t\t\t</li>
 \t\t</ul>
 \t</div>
@@ -136,7 +155,7 @@ class __TwigTemplate_aa7415d806b92b9975685b2b8dce030c extends Template
 
     public function getDebugInfo()
     {
-        return array (  106 => 22,  89 => 7,  79 => 6,  59 => 3,  36 => 1,);
+        return array (  133 => 38,  129 => 36,  127 => 35,  122 => 32,  116 => 29,  112 => 27,  110 => 26,  89 => 7,  79 => 6,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -161,14 +180,23 @@ class __TwigTemplate_aa7415d806b92b9975685b2b8dce030c extends Template
 \t</style>
 
 \t<div class=\"example-wrapper\">
-\t\t<h1>Hello
-\t\t\t{{ controller_name }}! ✅</h1>
+\t\t<h1>
+\t\t\tHello ! 🤌🍝
 
-\t\tThis friendly message is coming from:
+\t\t</h1>
+
+\t\t{% if app.user %}
+\t\t\t<div class=\"mb-3\">
+\t\t\t\tYou are logged in as
+\t\t\t\t{{ app.user.userIdentifier }}
+\t\t\t</div>
+\t\t{% endif %}
 \t\t<ul>
 \t\t\t<li>
 \t\t\t\t<code>
-\t\t\t\t\t<a href=\"/register\">Créer un compte</a>
+\t\t\t\t\t{% if app.user %}
+\t\t\t\t\t\t<a href=\"/register\">Créer un compte</a>
+\t\t\t\t\t{% endif %}
 \t\t\t\t</code>
 \t\t\t</li>
 \t\t</ul>
