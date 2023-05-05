@@ -16,6 +16,6 @@ if (!\class_exists(App_KernelDevDebugContainer::class, false)) {
 
 return new \ContainerTGLeGiL\App_KernelDevDebugContainer([
     'container.build_hash' => 'TGLeGiL',
-    'container.build_id' => 'add020d8',
-    'container.build_time' => 1683301403,
+    'container.build_id' => '306004e4',
+    'container.build_time' => 1683301771,
 ], __DIR__.\DIRECTORY_SEPARATOR.'ContainerTGLeGiL');
