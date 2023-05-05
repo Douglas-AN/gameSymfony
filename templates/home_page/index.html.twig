@@ -3,6 +3,7 @@
 {% block title %}Hello HomePageController!
 {% endblock %}
 
+
 {% block body %}
 	<style>
 		.example-wrapper {
@@ -26,17 +27,13 @@
 		{% if app.user %}
 			<div class="mb-3">
 				You are logged in as
-				{{ app.user.userIdentifier }}
+				{{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
 			</div>
+			{% else %}
+				<a href="/login">Se connecter</a>
 		{% endif %}
-		<ul>
-			<li>
-				<code>
-					{% if app.user %}
-						<a href="/register">Créer un compte</a>
-					{% endif %}
-				</code>
-			</li>
-		</ul>
+		{% if not app.user %}
+			<a href="/register">Créer un compte</a>
+		{% endif %}
 	</div>
 {% endblock %}

@@ -75,7 +75,7 @@ class __TwigTemplate_aa7415d806b92b9975685b2b8dce030c extends Template
 
     }
 
-    // line 6
+    // line 7
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -85,7 +85,7 @@ class __TwigTemplate_aa7415d806b92b9975685b2b8dce030c extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
-        // line 7
+        // line 8
         echo "\t<style>
 \t\t.example-wrapper {
 \t\t\tmargin: 1em auto;
@@ -106,34 +106,33 @@ class __TwigTemplate_aa7415d806b92b9975685b2b8dce030c extends Template
 \t\t</h1>
 
 \t\t";
-        // line 26
-        if (twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 26, $this->source); })()), "user", [], "any", false, false, false, 26)) {
-            // line 27
+        // line 27
+        if (twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 27, $this->source); })()), "user", [], "any", false, false, false, 27)) {
+            // line 28
             echo "\t\t\t<div class=\"mb-3\">
 \t\t\t\tYou are logged in as
 \t\t\t\t";
-            // line 29
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 29, $this->source); })()), "user", [], "any", false, false, false, 29), "userIdentifier", [], "any", false, false, false, 29), "html", null, true);
-            echo "
+            // line 30
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 30, $this->source); })()), "user", [], "any", false, false, false, 30), "userIdentifier", [], "any", false, false, false, 30), "html", null, true);
+            echo ", <a href=\"";
+            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_logout");
+            echo "\">Logout</a>
 \t\t\t</div>
+\t\t\t";
+        } else {
+            // line 33
+            echo "\t\t\t\t<a href=\"/login\">Se connecter</a>
 \t\t";
         }
-        // line 32
-        echo "\t\t<ul>
-\t\t\t<li>
-\t\t\t\t<code>
-\t\t\t\t\t";
         // line 35
-        if (twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 35, $this->source); })()), "user", [], "any", false, false, false, 35)) {
+        echo "\t\t";
+        if ( !twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 35, $this->source); })()), "user", [], "any", false, false, false, 35)) {
             // line 36
-            echo "\t\t\t\t\t\t<a href=\"/register\">Créer un compte</a>
-\t\t\t\t\t";
+            echo "\t\t\t<a href=\"/register\">Créer un compte</a>
+\t\t";
         }
         // line 38
-        echo "\t\t\t\t</code>
-\t\t\t</li>
-\t\t</ul>
-\t</div>
+        echo "\t</div>
 ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -155,7 +154,7 @@ class __TwigTemplate_aa7415d806b92b9975685b2b8dce030c extends Template
 
     public function getDebugInfo()
     {
-        return array (  133 => 38,  129 => 36,  127 => 35,  122 => 32,  116 => 29,  112 => 27,  110 => 26,  89 => 7,  79 => 6,  59 => 3,  36 => 1,);
+        return array (  135 => 38,  131 => 36,  128 => 35,  124 => 33,  116 => 30,  112 => 28,  110 => 27,  89 => 8,  79 => 7,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -164,6 +163,7 @@ class __TwigTemplate_aa7415d806b92b9975685b2b8dce030c extends Template
 
 {% block title %}Hello HomePageController!
 {% endblock %}
+
 
 {% block body %}
 \t<style>
@@ -188,18 +188,14 @@ class __TwigTemplate_aa7415d806b92b9975685b2b8dce030c extends Template
 \t\t{% if app.user %}
 \t\t\t<div class=\"mb-3\">
 \t\t\t\tYou are logged in as
-\t\t\t\t{{ app.user.userIdentifier }}
+\t\t\t\t{{ app.user.userIdentifier }}, <a href=\"{{ path('app_logout') }}\">Logout</a>
 \t\t\t</div>
+\t\t\t{% else %}
+\t\t\t\t<a href=\"/login\">Se connecter</a>
 \t\t{% endif %}
-\t\t<ul>
-\t\t\t<li>
-\t\t\t\t<code>
-\t\t\t\t\t{% if app.user %}
-\t\t\t\t\t\t<a href=\"/register\">Créer un compte</a>
-\t\t\t\t\t{% endif %}
-\t\t\t\t</code>
-\t\t\t</li>
-\t\t</ul>
+\t\t{% if not app.user %}
+\t\t\t<a href=\"/register\">Créer un compte</a>
+\t\t{% endif %}
 \t</div>
 {% endblock %}
 ", "home_page/index.html.twig", "/Users/doug/gameSymfony/templates/home_page/index.html.twig");
