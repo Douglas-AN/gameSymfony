@@ -85,7 +85,7 @@
     <parameter key="kernel.default_locale">en</parameter>
     <parameter key="kernel.enabled_locales" type="collection"/>
     <parameter key="kernel.error_controller">error_controller</parameter>
-    <parameter key="debug.file_link_format">%env(default::SYMFONY_IDE)%</parameter>
+    <parameter key="debug.file_link_format">%env(APP_IDE)%</parameter>
     <parameter key="debug.error_handler.throw_at">-1</parameter>
     <parameter key="debug.container.dump">/Users/doug/gameSymfony/var/cache/dev/App_KernelDevDebugContainer.xml</parameter>
     <parameter key="router.request_context.host">localhost</parameter>
@@ -1193,6 +1193,12 @@
       <argument type="service" id="http_client" on-invalid="ignore"/>
       <argument type="service" id="logger" on-invalid="ignore"/>
     </service>
+    <service id="mailer.transport_factory.gmail" class="Symfony\Component\Mailer\Bridge\Google\Transport\GmailTransportFactory">
+      <tag name="mailer.transport_factory"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+      <argument>null</argument>
+      <argument type="service" id="logger" on-invalid="ignore"/>
+    </service>
     <service id="mailer.transport_factory.null" class="Symfony\Component\Mailer\Transport\NullTransportFactory">
       <tag name="mailer.transport_factory"/>
       <argument type="service" id="debug.event_dispatcher"/>
@@ -1230,7 +1236,7 @@
       <argument>null</argument>
     </service>
     <service id="debug.file_link_formatter" class="Symfony\Component\HttpKernel\Debug\FileLinkFormatter">
-      <argument>%env(default::SYMFONY_IDE)%</argument>
+      <argument>%env(APP_IDE)%</argument>
       <argument type="service" id="request_stack" on-invalid="ignore"/>
       <argument>/Users/doug/gameSymfony</argument>
       <argument type="service_closure" id="debug.file_link_formatter.url_format"/>

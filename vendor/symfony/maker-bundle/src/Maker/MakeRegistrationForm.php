@@ -527,17 +527,6 @@ final class MakeRegistrationForm extends AbstractMaker
 
         $formFields = [
             $usernameField => null,
-            'agreeTerms' => [
-                'type' => CheckboxType::class,
-                'options_code' => <<<EOF
-                                    'mapped' => false,
-                                    'constraints' => [
-                                        new IsTrue([
-                                            'message' => 'You should agree to our terms.',
-                                        ]),
-                                    ],
-                    EOF
-            ],
             'plainPassword' => [
                 'type' => PasswordType::class,
                 'options_code' => <<<EOF

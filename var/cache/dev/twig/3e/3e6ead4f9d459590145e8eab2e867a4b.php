@@ -115,10 +115,7 @@ class __TwigTemplate_530279a827346cde416b5e29c5979dd8 extends Template
         echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["registrationForm"]) || array_key_exists("registrationForm", $context) ? $context["registrationForm"] : (function () { throw new RuntimeError('Variable "registrationForm" does not exist.', 14, $this->source); })()), "plainPassword", [], "any", false, false, false, 14), 'row', ["label" => "Password"]);
         // line 16
         echo "
-        ";
-        // line 17
-        echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["registrationForm"]) || array_key_exists("registrationForm", $context) ? $context["registrationForm"] : (function () { throw new RuntimeError('Variable "registrationForm" does not exist.', 17, $this->source); })()), "agreeTerms", [], "any", false, false, false, 17), 'row');
-        echo "
+
 
         <button type=\"submit\" class=\"btn\">Register</button>
     ";
@@ -146,7 +143,7 @@ class __TwigTemplate_530279a827346cde416b5e29c5979dd8 extends Template
 
     public function getDebugInfo()
     {
-        return array (  126 => 20,  120 => 17,  117 => 16,  115 => 14,  111 => 13,  107 => 12,  102 => 9,  93 => 7,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  123 => 20,  117 => 16,  115 => 14,  111 => 13,  107 => 12,  102 => 9,  93 => 7,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -167,7 +164,7 @@ class __TwigTemplate_530279a827346cde416b5e29c5979dd8 extends Template
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+
 
         <button type=\"submit\" class=\"btn\">Register</button>
     {{ form_end(registrationForm) }}

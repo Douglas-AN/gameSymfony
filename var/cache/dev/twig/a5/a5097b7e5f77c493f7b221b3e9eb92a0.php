@@ -108,20 +108,9 @@ class __TwigTemplate_aa7415d806b92b9975685b2b8dce030c extends Template
 
 \t\tThis friendly message is coming from:
 \t\t<ul>
-\t\t\t<li>Your controller at
+\t\t\t<li>
 \t\t\t\t<code>
-\t\t\t\t\t<a href=\"";
-        // line 28
-        echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\CodeExtension']->getFileLink("/Users/doug/gameSymfony/src/Controller/HomePageController.php", 0), "html", null, true);
-        echo "\">src/Controller/HomePageController.php</a>
-\t\t\t\t</code>
-\t\t\t</li>
-\t\t\t<li>Your template at
-\t\t\t\t<code>
-\t\t\t\t\t<a href=\"";
-        // line 33
-        echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\CodeExtension']->getFileLink("/Users/doug/gameSymfony/templates/home_page/index.html.twig", 0), "html", null, true);
-        echo "\">templates/home_page/index.html.twig</a>
+\t\t\t\t\t<a href=\"/register\">Créer un compte</a>
 \t\t\t\t</code>
 \t\t\t</li>
 \t\t</ul>
@@ -147,7 +136,7 @@ class __TwigTemplate_aa7415d806b92b9975685b2b8dce030c extends Template
 
     public function getDebugInfo()
     {
-        return array (  123 => 33,  115 => 28,  106 => 22,  89 => 7,  79 => 6,  59 => 3,  36 => 1,);
+        return array (  106 => 22,  89 => 7,  79 => 6,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -177,14 +166,9 @@ class __TwigTemplate_aa7415d806b92b9975685b2b8dce030c extends Template
 
 \t\tThis friendly message is coming from:
 \t\t<ul>
-\t\t\t<li>Your controller at
+\t\t\t<li>
 \t\t\t\t<code>
-\t\t\t\t\t<a href=\"{{ '/Users/doug/gameSymfony/src/Controller/HomePageController.php'|file_link(0) }}\">src/Controller/HomePageController.php</a>
-\t\t\t\t</code>
-\t\t\t</li>
-\t\t\t<li>Your template at
-\t\t\t\t<code>
-\t\t\t\t\t<a href=\"{{ '/Users/doug/gameSymfony/templates/home_page/index.html.twig'|file_link(0) }}\">templates/home_page/index.html.twig</a>
+\t\t\t\t\t<a href=\"/register\">Créer un compte</a>
 \t\t\t\t</code>
 \t\t\t</li>
 \t\t</ul>
