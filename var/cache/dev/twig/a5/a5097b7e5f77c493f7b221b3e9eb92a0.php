@@ -102,36 +102,44 @@ class __TwigTemplate_aa7415d806b92b9975685b2b8dce030c extends Template
 \t<div class=\"example-wrapper\">
 \t\t<h1>
 \t\t\tHello ! 🤌🍝
-
 \t\t</h1>
 
 \t\t";
-        // line 27
-        if (twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 27, $this->source); })()), "user", [], "any", false, false, false, 27)) {
-            // line 28
+        // line 26
+        if (twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 26, $this->source); })()), "user", [], "any", false, false, false, 26)) {
+            // line 27
             echo "\t\t\t<div class=\"mb-3\">
 \t\t\t\tYou are logged in as
 \t\t\t\t";
-            // line 30
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 30, $this->source); })()), "user", [], "any", false, false, false, 30), "userIdentifier", [], "any", false, false, false, 30), "html", null, true);
+            // line 29
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 29, $this->source); })()), "user", [], "any", false, false, false, 29), "userIdentifier", [], "any", false, false, false, 29), "html", null, true);
             echo ", <a href=\"";
             echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_logout");
             echo "\">Logout</a>
 \t\t\t</div>
 \t\t\t";
         } else {
-            // line 33
+            // line 32
             echo "\t\t\t\t<a href=\"/login\">Se connecter</a>
 \t\t";
         }
-        // line 35
+        // line 34
         echo "\t\t";
-        if ( !twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 35, $this->source); })()), "user", [], "any", false, false, false, 35)) {
-            // line 36
+        if ( !twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 34, $this->source); })()), "user", [], "any", false, false, false, 34)) {
+            // line 35
             echo "\t\t\t<a href=\"/register\">Créer un compte</a>
 \t\t";
         }
-        // line 38
+        // line 37
+        echo "\t\t";
+        if (twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 37, $this->source); })()), "user", [], "any", false, false, false, 37)) {
+            // line 38
+            echo "\t\t\t<div class=\"mb-2\">
+\t\t\t\trequi
+\t\t\t</div>
+\t\t";
+        }
+        // line 42
         echo "\t</div>
 ";
         
@@ -154,7 +162,7 @@ class __TwigTemplate_aa7415d806b92b9975685b2b8dce030c extends Template
 
     public function getDebugInfo()
     {
-        return array (  135 => 38,  131 => 36,  128 => 35,  124 => 33,  116 => 30,  112 => 28,  110 => 27,  89 => 8,  79 => 7,  59 => 3,  36 => 1,);
+        return array (  143 => 42,  137 => 38,  134 => 37,  130 => 35,  127 => 34,  123 => 32,  115 => 29,  111 => 27,  109 => 26,  89 => 8,  79 => 7,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -182,7 +190,6 @@ class __TwigTemplate_aa7415d806b92b9975685b2b8dce030c extends Template
 \t<div class=\"example-wrapper\">
 \t\t<h1>
 \t\t\tHello ! 🤌🍝
-
 \t\t</h1>
 
 \t\t{% if app.user %}
@@ -195,6 +202,11 @@ class __TwigTemplate_aa7415d806b92b9975685b2b8dce030c extends Template
 \t\t{% endif %}
 \t\t{% if not app.user %}
 \t\t\t<a href=\"/register\">Créer un compte</a>
+\t\t{% endif %}
+\t\t{% if app.user %}
+\t\t\t<div class=\"mb-2\">
+\t\t\t\trequi
+\t\t\t</div>
 \t\t{% endif %}
 \t</div>
 {% endblock %}

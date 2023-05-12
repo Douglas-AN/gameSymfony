@@ -21,7 +21,6 @@
 	<div class="example-wrapper">
 		<h1>
 			Hello ! 🤌🍝
-
 		</h1>
 
 		{% if app.user %}
@@ -34,6 +33,11 @@
 		{% endif %}
 		{% if not app.user %}
 			<a href="/register">Créer un compte</a>
+		{% endif %}
+		{% if app.user %}
+			<div class="mb-3">
+				
+			</div>
 		{% endif %}
 	</div>
 {% endblock %}
