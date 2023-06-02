@@ -26,18 +26,18 @@
 		{% if app.user %}
 			<div class="mb-3">
 				You are logged in as
-				{{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+				{{ app.user.userIdentifier }},
+				<a href="{{ path('app_logout') }}">Logout</a>
 			</div>
-			{% else %}
-				<a href="/login">Se connecter</a>
+			<a href="/game/">Mes Parties</a>
+
+		{% else %}
+			<a href="/login">Se connecter</a>
 		{% endif %}
 		{% if not app.user %}
-			<a href="/register">Créer un compte</a>
+			<a href="/register/fr">Créer un compte</a>
 		{% endif %}
-		{% if app.user %}
-			<div class="mb-3">
-				
-			</div>
-		{% endif %}
+
+
 	</div>
 {% endblock %}

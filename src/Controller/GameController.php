@@ -2,145 +2,122 @@
 
 namespace App\Controller;
 
+use App\Entity\Game;
+use App\Form\Game1Type;
+use App\Repository\GameRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\DependencyInjection\Extension\Extension;
 
+/** 
+* @Security("is_granted('ROLE_USER')") 
+*/
+#[Route('/game')]
 class GameController extends AbstractController
 {
-    #[Route('/game/controler', name: 'app_game_controler')]
-    public function index(): Response
+    private const ROWS = 6;
+    private const COLUMNS = 7;
+
+    #[Route('/', name: 'app_game_index', methods: ['GET'])]
+    public function index(GameRepository $gameRepository): Response
     {
-        $game = $this->getDoctrine()
-        ->getRepository(Game::class)
-        ->find(1);
-
-    $players = $this->getDoctrine()
-        ->getRepository(Player::class)
-        ->findAll();
-
-    $grid = json_decode($game->getGrid(), true);
-
-    return $this->render('game_controller/index.html.twig', [
-        'game' => $game,
-        'players' => $players,
-        'grid' => $grid
-    ]);
+        return $this->render('game/index.html.twig', [
+            'games' => $gameRepository->findAll(),
+        ]);
     }
 
-    #[Route('/place/{column}', name: 'place')]
-    public function place(Request $request, int $column): Response
+    #[Route('/new', name: 'app_game_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, GameRepository $gameRepository, LoggerInterface $logger): Response
     {
-        $game = $this->getDoctrine()
-            ->getRepository(Game::class)
-            ->find(1);
+        $game = new Game();
+        $form = $this->createForm(Game1Type::class, $game);
+        $form->handleRequest($request);
 
-        $grid = json_decode($game->getGrid(), true);
-        $player = $this->getDoctrine()
-            ->getRepository(Player::class)
-            ->find(1);
-        $color = $player->getColor();
-
-        // Trouver la première case vide dans la colonne
-        for ($row = 5; $row >= 0; $row--) {
-            if ($grid[$row][$column] == null) {
-                $grid[$row][$column] = $color;
-                break;
-            }
-        }
-
-        $game->setGrid(json_encode($grid));
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($game);
-        $entityManager->flush();
-
-        // Vérifier si un joueur a aligné 4 de ses pions
-        $winner = $this->checkWinner($grid);
-
-        if ($winner != null) {
-            return $this->redirectToRoute('winner', [
-                'winner' => $winner
+        if ($form->isSubmitted() && $form->isValid()) {
+            $game->setGrid([
+                    array('', '', '', '', '', '', ''),
+                    array('', '', '', '', '', '', ''),
+                    array('', '', '', '', '', '', ''),
+                    array('', '', '', '', '', '', ''),
+                    array('', '', '', '', '', '', ''),
+                    array('', '', '', '', '', '', ''),
             ]);
+            $gameRepository->save($game, true);
+
+            return $this->redirectToRoute('app_game_index', [], Response::HTTP_SEE_OTHER);
         }
+        $logger->info('New game');
 
-        // Vérifier si la grille est remplie (partie nulle)
-        $full = true;
 
-        for ($row = 0; $row < 6; $row++) {
-            for ($col = 0; $col < 7; $col++) {
-                if ($grid[$row][$col] == null) {
-                    $full = false;
-                    break 2;
-                }
+        return $this->renderForm('game/new.html.twig', [
+            'game' => $game,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_game_show')]
+    public function show(Request $request, Game $game): Response
+    {
+        if ($request->isMethod('POST')) {
+            $column = $request->request->get('column');
+            $this->playMove($game, $column);
+        }
+        $this->playMove($game, self::COLUMNS);
+
+
+        return $this->render('game/show.html.twig', [
+            'game' => $game,    
+            'board' => $game->getGrid(),
+            'player' => $game->getCurrentPlayer(),
+            'winner' => $game->getWinner(),
+        ]);
+    }
+
+    public function playMove(Game $game, int $column): bool
+    {
+        $grid = $game->getGrid();
+        $player = $game->getCurrentPlayer();
+
+
+        // Chercher la première case vide dans la colonne
+        for ($row = self::ROWS - 1; $row >= 0; $row--) {
+
+            if ($column === '') {
+                $grid[$row][$column] = $player;
+                $game->setGrid($grid);
+                return true;
             }
         }
 
-        if ($full) {
-            return $this->redirectToRoute('tie');
-        }
-
-        // Changer de joueur
-        $player = $this->getDoctrine()
-            ->getRepository(Player::class)
-            ->findOneByColor($player->getColor() == 'red' ? 'yellow' : 'red');
-
-        return $this->redirectToRoute('index');
+        return false;
     }
 
-    private function checkWinner($grid)
-{
-    // Vérifier les lignes horizontales
-    for ($row = 0; $row < 6; $row++) {
-        for ($col = 0; $col < 4; $col++) {
-            if ($grid[$row][$col] != null &&
-                $grid[$row][$col] == $grid[$row][$col + 1] &&
-                $grid[$row][$col] == $grid[$row][$col + 2] &&
-                $grid[$row][$col] == $grid[$row][$col + 3]) {
-                return $grid[$row][$col];
-            }
+
+    #[Route('/{id}', name: 'app_game_delete', methods: ['POST'])]
+    public function delete(Request $request, Game $game, GameRepository $gameRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$game->getId(), $request->request->get('_token'))) {
+            $gameRepository->remove($game, true);
         }
+
+        return $this->redirectToRoute('app_game_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    // Vérifier les colonnes verticales
-    for ($row = 0; $row < 3; $row++) {
-        for ($col = 0; $col < 7; $col++) {
-            if ($grid[$row][$col] != null &&
-                $grid[$row][$col] == $grid[$row + 1][$col] &&
-                $grid[$row][$col] == $grid[$row + 2][$col] &&
-                $grid[$row][$col] == $grid[$row + 3][$col]) {
-                return $grid[$row][$col];
-            }
-        }
+    #[Route('/serialized/game{id}.{extension}', name: 'app_game_serialized')]
+    public function serialized(Game $game, string $extension): Response
+    {
+        $encoders = [new XmlEncoder(), new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+        $serializer = new Serializer($normalizers, $encoders);
+        
+        return new Response($serializer->serialize($game, $extension), 200, ['content-type' => 'text/'.$extension]);
     }
-
-    // Vérifier les diagonales montantes
-    for ($row = 3; $row < 6; $row++) {
-        for ($col = 0; $col < 4; $col++) {
-            if ($grid[$row][$col] != null &&
-                $grid[$row][$col] == $grid[$row - 1][$col + 1] &&
-                $grid[$row][$col] == $grid[$row - 2][$col + 2] &&
-                $grid[$row][$col] == $grid[$row - 3][$col + 3]) {
-                return $grid[$row][$col];
-            }
-        }
-    }
-
-    // Vérifier les diagonales descendantes
-    for ($row = 0; $row < 3; $row++) {
-        for ($col = 0; $col < 4; $col++) {
-            if ($grid[$row][$col] != null &&
-                $grid[$row][$col] == $grid[$row + 1][$col + 1] &&
-                $grid[$row][$col] == $grid[$row + 2][$col + 2] &&
-                $grid[$row][$col] == $grid[$row + 3][$col + 3]) {
-                return $grid[$row][$col];
-            }
-        }
-    }
-
-    // S'il n'y a pas de gagnant
-    return null;
-}
-
-
 }

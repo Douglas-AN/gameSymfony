@@ -2,24 +2,22 @@
 
 namespace App\Entity;
 
+use App\Repository\GameRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=GameRepository::class)
- */
+#[ORM\Entity(repositoryClass: GameRepository::class)]
 class Game
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="array")
-     */
-    private $grid;
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     /**
      * @ORM\Column(type="integer")
@@ -31,22 +29,24 @@ class Game
      */
     private $winner;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $width;
 
-    public function getGrid(): ?array
-    {
-        return $this->grid;
-    }
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $height;
 
-    public function setGrid(array $grid): self
-    {
-        $this->grid = $grid;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $lastMove;
 
-        return $this;
-    }
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $grid = [];
+  
 
     public function getCurrentPlayer(): ?int
     {
@@ -56,7 +56,6 @@ class Game
     public function setCurrentPlayer(int $currentPlayer): self
     {
         $this->currentPlayer = $currentPlayer;
-
         return $this;
     }
 
@@ -68,6 +67,17 @@ class Game
     public function setWinner(int $winner): self
     {
         $this->winner = $winner;
+        return $this;
+    }
+
+    public function getGrid(): array
+    {
+        return $this->grid;
+    }
+
+    public function setGrid(array $grid): self
+    {
+        $this->grid = $grid;
 
         return $this;
     }

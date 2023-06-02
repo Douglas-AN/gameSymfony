@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Game
+{% endblock %}
+
+{% block body %}
+	<style>
+		.game_table {
+			border: 3px blue outset;
+			background-color: blue;
+
+		}
+		.game_table td {
+			width: 2cm;
+			height: 2cm;
+			margin: 0;
+			padding: 0;
+			border: 2px blue inset;
+			border-radius: 2cm;
+			background-color: white;
+
+		}
+		.game_table td.red {
+			background-color: red;
+		}
+		.game_table td.yellow {
+			background-color: yellow;
+		}
+		.submit {
+			width: 2cm;
+			height: 2cm;
+			margin: 0;
+			padding: 0;
+			background-color: transparent;
+			border: none;
+			cursor: pointer;
+		}
+	</style>
+
+	<h1>Game</h1>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ game.id }}</td>
+			</tr>
+			<tr>
+				<th>Grid</th>
+				{# <td>{{ game.grid ? game.grid|join(', ') : '' }}</td> #}
+			</tr>
+		</tbody>
+	</table>
+	{% if board %}
+		<table class="game_table">
+			{% for row in board %}
+				<tr>
+					{% for cell in row %}
+						<td>
+							<form method="POST" action="{{ path('app_game_show', {'id': game.id}) }}">
+								<input type="hidden" name="column" value="{{ loop.index0 }}">
+								<button type="submit" class="submit"></button>
+							</form>
+						</td>
+					{% endfor %}
+				</tr>
+			{% endfor %}
+		</table>
+	{% endif %}
+
+
+	<a href="{{ path('app_game_index') }}">back to list</a>
+	<a href="{{ path('app_game_serialized', {'id' : game.id, 'extension': 'json'}) }}">Serialization Json</a>
+	<a href="{{ path('app_game_serialized', {'id' : game.id, 'extension': 'xml'}) }}">Serialization Xml</a>
+
+
+	{{ include('game/_delete_form.html.twig') }}
+{% endblock %}
